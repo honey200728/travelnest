@@ -2,8 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const adminRoutes = require("./routes/adminRoutes");
-const propertyRoutes = require("./routes/propertyRoutes");
+
 dotenv.config();
 
 // Check that .env is loading
@@ -21,7 +20,10 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: [
+      "http://localhost:3000",
+      "https://travelnest-t7x1-2fz00ybx5-spirit17.vercel.app",
+    ],
     credentials: true,
   })
 );
@@ -36,11 +38,14 @@ app.use(cookieParser());
 
 const authRoutes = require("./routes/authRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
+const adminRoutes = require("./routes/adminRoutes");
+const propertyRoutes = require("./routes/propertyRoutes");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/properties", propertyRoutes);
+
 // =======================
 // Home Route
 // =======================
@@ -51,7 +56,6 @@ app.get("/", (req, res) => {
 
 // =======================
 // 404 Route
-// Express 5 Compatible
 // =======================
 
 app.use((req, res) => {
@@ -81,5 +85,5 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
