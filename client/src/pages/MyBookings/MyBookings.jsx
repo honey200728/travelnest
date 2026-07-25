@@ -14,38 +14,35 @@ function MyBookings() {
 
   useEffect(() => {
 
-  if (userId) {
-    fetchBookings();
-  }
+    const fetchBookings = async () => {
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+      try {
 
-}, [userId]);
+        const res = await API.get(
+          `/bookings/my-bookings/${userId}`
+        );
 
-  const fetchBookings = async () => {
+        const activeBookings = res.data.bookings.filter(
+          (booking) => booking.status !== "Cancelled"
+        );
 
-    try {
+        setBookings(activeBookings);
 
-      const res = await API.get(
-        `/bookings/my-bookings/${userId}`
-      );
+      } catch (err) {
 
-      // Show only confirmed bookings
-      const activeBookings = res.data.bookings.filter(
-        (booking) => booking.status !== "Cancelled"
-      );
+        console.log(err);
 
-      setBookings(activeBookings);
+        toast.error("Unable to load bookings");
 
-    } catch (err) {
+      }
 
-      console.log(err);
+    };
 
-      toast.error("Unable to load bookings");
-
+    if (userId) {
+      fetchBookings();
     }
 
-  };
+  }, [userId]);
 
   const cancelBooking = async (id) => {
 
@@ -61,7 +58,9 @@ function MyBookings() {
 
       toast.success("Booking Cancelled Successfully");
 
-      fetchBookings();
+      setBookings((prev) =>
+        prev.filter((booking) => booking._id !== id)
+      );
 
     } catch (err) {
 

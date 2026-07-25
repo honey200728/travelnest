@@ -16,52 +16,44 @@ import {
 function PropertyDetails() {
 
   const { id } = useParams();
-
   const navigate = useNavigate();
 
   const [property, setProperty] = useState(null);
-
   const [loading, setLoading] = useState(true);
-
   const [guests, setGuests] = useState(1);
 
- useEffect(() => {
+  useEffect(() => {
 
-  fetchProperty();
+    const fetchProperty = async () => {
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+      try {
 
-}, [id]);
-  const fetchProperty = async () => {
+        const res = await API.get(`/properties/${id}`);
 
-    try {
+        setProperty(res.data.property);
 
-      const res = await API.get(`/properties/${id}`);
+      } catch (err) {
 
-      setProperty(res.data.property);
+        console.log(err);
 
-    } catch (err) {
+      } finally {
 
-      console.log(err);
+        setLoading(false);
 
-    } finally {
+      }
 
-      setLoading(false);
+    };
 
-    }
+    fetchProperty();
 
-  };
+  }, [id]);
 
   if (loading) {
-
     return <h2 style={{ padding: "40px" }}>Loading...</h2>;
-
   }
 
   if (!property) {
-
     return <h2 style={{ padding: "40px" }}>Property Not Found</h2>;
-
   }
 
   const handleReserve = () => {
@@ -119,11 +111,7 @@ function PropertyDetails() {
 
           <h3>Description</h3>
 
-          <p>
-
-            {property.description}
-
-          </p>
+          <p>{property.description}</p>
 
           <h3>Amenities</h3>
 
