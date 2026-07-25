@@ -1,12 +1,12 @@
 import "./Navbar.css";
 import { Link, useNavigate } from "react-router-dom";
-import { FaHeart, FaUserCircle } from "react-icons/fa";
+
 import { MdTravelExplore } from "react-icons/md";
 import { useAuth } from "../../context/AuthContext";
 
 function Navbar() {
 
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
 
   const navigate = useNavigate();
 

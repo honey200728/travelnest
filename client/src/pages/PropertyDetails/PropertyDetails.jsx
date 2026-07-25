@@ -25,12 +25,13 @@ function PropertyDetails() {
 
   const [guests, setGuests] = useState(1);
 
-  useEffect(() => {
+ useEffect(() => {
 
-    fetchProperty();
+  fetchProperty();
 
-  }, [id]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
 
+}, [id]);
   const fetchProperty = async () => {
 
     try {

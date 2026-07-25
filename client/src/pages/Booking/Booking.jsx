@@ -24,9 +24,10 @@ function Booking() {
   const [paymentMethod, setPaymentMethod] = useState("UPI");
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    fetchProperty();
-  }, [id]);
+useEffect(() => {
+  fetchProperty();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [id]);
 
   const fetchProperty = async () => {
 
